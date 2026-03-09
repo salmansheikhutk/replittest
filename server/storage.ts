@@ -1,38 +1,39 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { db } from "./db";
+import { lessons, exercises, type Lesson, type Exercise, type LessonWithExercises } from "@shared/schema";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getLessons(category?: string, level?: string): Promise<Lesson[]>;
+  getLesson(id: number): Promise<LessonWithExercises | undefined>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+export class DatabaseStorage implements IStorage {
+  async getLessons(category?: string, level?: string): Promise<Lesson[]> {
+    let query = db.select().from(lessons);
+    
+    // We could add conditionals here if we want to filter in the DB, 
+    // but for simple cases, returning all or filtering manually is fine.
+    // However, Drizzle allows conditional where clauses but we'll fetch all and filter or use basic where.
+    const allLessons = await query;
+    return allLessons.filter(lesson => {
+      let matches = true;
+      if (category && lesson.category !== category) matches = false;
+      if (level && lesson.level !== level) matches = false;
+      return matches;
+    });
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
-  }
+  async getLesson(id: number): Promise<LessonWithExercises | undefined> {
+    const lesson = await db.select().from(lessons).where(eq(lessons.id, id));
+    if (!lesson.length) return undefined;
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+    const lessonExercises = await db.select().from(exercises).where(eq(exercises.lessonId, id));
+    
+    return {
+      ...lesson[0],
+      exercises: lessonExercises
+    };
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
