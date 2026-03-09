@@ -49,7 +49,7 @@ export function LessonView() {
             className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
-            Back to Path
+            العودة إلى المسار
           </Link>
           
           <div className="flex bg-muted p-1 rounded-lg">
@@ -58,14 +58,14 @@ export function LessonView() {
               className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all flex items-center gap-2 ${mode === 'learn' ? 'bg-white shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
             >
               <BookOpen className="w-4 h-4" />
-              Learn
+              تعلّم
             </button>
             <button 
               onClick={() => setMode('practice')}
               className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all flex items-center gap-2 ${mode === 'practice' ? 'bg-white shadow-sm text-primary' : 'text-muted-foreground hover:text-foreground'}`}
             >
               <GraduationCap className="w-4 h-4" />
-              Practice
+              تمرين
             </button>
           </div>
         </div>
@@ -102,7 +102,7 @@ export function LessonView() {
                 className="px-8 py-4 bg-primary text-white rounded-xl font-bold text-lg shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-2"
               >
                 <GraduationCap className="w-6 h-6" />
-                Start Practice Quiz
+                ابدأ التمرين
               </button>
             </div>
           </div>

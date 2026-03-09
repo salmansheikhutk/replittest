@@ -44,8 +44,8 @@ async function seedDatabase() {
   if (existingLessons.length === 0) {
     // Basic Sarf Lesson
     const [lesson1] = await db.insert(lessons).values({
-      title: "Past Tense (Madi)",
-      content: "Arabic verbs usually have 3 root letters. The base is 3rd person masculine singular: **Fa'ala** (He did).",
+      title: "الفعل الماضي (Past Tense)",
+      content: "الأفعال العربية عادةً تتكون من ثلاثة أحرف أصلية. الأصل في الفعل الماضي هو صيغة الغائب المذكر المفرد: **فَعَلَ**.\n\nأمثلة:\n- **كَتَبَ** (هو كتب)\n- **ذَهَبَ** (هو ذهب)\n- **جَلَسَ** (هو جلس)",
       category: "sarf",
       level: "beginner",
       order: 1
@@ -54,24 +54,23 @@ async function seedDatabase() {
     await db.insert(exercises).values([
       {
         lessonId: lesson1.id,
-        question: "Base form of past tense?",
-        options: ["He did", "I did", "You did"],
-        correctAnswer: "He did",
-        explanation: "3rd person masculine singular is the root."
+        question: "ما هو الأصل في صيغة الفعل الماضي؟",
+        options: ["فَعَلَ (هو)", "فَعَلْتُ (أنا)", "فَعَلْتَ (أنت)"],
+        correctAnswer: "فَعَلَ (هو)",
+        explanation: "أصل الفعل الماضي هو صيغة الغائب المذكر المفرد (هو) وهو الأساس الذي تُبنى عليه بقية التصريفات."
       },
       {
         lessonId: lesson1.id,
-        question: "Standard root letter count?",
-        options: ["2", "3", "4"],
-        correctAnswer: "3",
-        explanation: "Most Arabic verbs are triliteral (3 letters)."
+        question: "كم عدد الحروف الأصلية في أكثر الأفعال العربية؟",
+        options: ["٢", "٣", "٤"],
+        correctAnswer: "٣",
+        explanation: "أغلب الأفعال العربية ثلاثية الأصل، أي تتكون من ثلاثة أحرف أصلية (ف ع ل)."
       }
     ]);
 
-    // Added Sarf Lesson 2
     const [lesson1b] = await db.insert(lessons).values({
-      title: "Present Tense (Mudari)",
-      content: "Starts with prefixes: **Ya-** (He), **Ta-** (You/She), **A-** (I), **Na-** (We). Example: **Yaf'alu** (He does).",
+      title: "الفعل المضارع (Present Tense)",
+      content: "يبدأ الفعل المضارع بأحد حروف المضارعة (أنيت): **يـ** (هو)، **تـ** (أنتَ/هي)، **أ** (أنا)، **نـ** (نحن).\n\nأمثلة:\n- **يَكْتُبُ** (هو يكتب)\n- **تَذْهَبُ** (أنتَ تذهب / هي تذهب)\n- **أَجْلِسُ** (أنا أجلس)\n- **نَفْعَلُ** (نحن نفعل)",
       category: "sarf",
       level: "beginner",
       order: 2
@@ -80,17 +79,16 @@ async function seedDatabase() {
     await db.insert(exercises).values([
       {
         lessonId: lesson1b.id,
-        question: "Prefix for 'He' (3rd person)?",
-        options: ["Ya", "Ta", "Na"],
-        correctAnswer: "Ya",
-        explanation: "Ya- indicates 3rd person masculine singular."
+        question: "ما هو حرف المضارعة للغائب المذكر (هو)؟",
+        options: ["يـ", "تـ", "نـ"],
+        correctAnswer: "يـ",
+        explanation: "حرف المضارعة (يـ) يدل على الغائب المذكر المفرد، مثل: يَفْعَلُ."
       }
     ]);
 
-    // Basic Nahw Lesson
     const [lesson2] = await db.insert(lessons).values({
-      title: "Nominal Sentence (Ismiyya)",
-      content: "Starts with a noun. Two parts: **Mubtada** (Subject) and **Khabar** (Predicate). Both are **Marfu** (Nominative).",
+      title: "الجملة الاسمية (Nominal Sentence)",
+      content: "الجملة الاسمية تبدأ باسم وتتكون من ركنين أساسيين:\n\n- **المبتدأ**: الاسم الذي نتحدث عنه (مرفوع)\n- **الخبر**: ما نُخبر به عن المبتدأ (مرفوع)\n\nمثال: **الكتابُ جديدٌ** (المبتدأ: الكتابُ، الخبر: جديدٌ)",
       category: "nahw",
       level: "beginner",
       order: 1
@@ -99,17 +97,16 @@ async function seedDatabase() {
     await db.insert(exercises).values([
       {
         lessonId: lesson2.id,
-        question: "Sentence starting with a noun?",
-        options: ["Ismiyya", "Fi'liyya"],
-        correctAnswer: "Ismiyya",
-        explanation: "Jumla Ismiyya starts with an Ism (noun)."
+        question: "ما هي الجملة التي تبدأ باسم؟",
+        options: ["الجملة الاسمية", "الجملة الفعلية"],
+        correctAnswer: "الجملة الاسمية",
+        explanation: "الجملة الاسمية تبدأ باسم وتتكون من مبتدأ وخبر."
       }
     ]);
 
-    // Added Nahw Lesson 2
     const [lesson2b] = await db.insert(lessons).values({
-      title: "Verbal Sentence (Fi'liyya)",
-      content: "Starts with a verb. Main parts: **Fi'l** (Verb) and **Fa'il** (Doer). Fa'il is always **Marfu**.",
+      title: "الجملة الفعلية (Verbal Sentence)",
+      content: "الجملة الفعلية تبدأ بفعل وتتكون من:\n\n- **الفعل**: الحدث الواقع\n- **الفاعل**: من قام بالفعل (دائماً مرفوع)\n- **المفعول به**: من وقع عليه الفعل (منصوب)\n\nمثال: **كَتَبَ الطالبُ الدرسَ** (الفعل: كتب، الفاعل: الطالبُ، المفعول به: الدرسَ)",
       category: "nahw",
       level: "beginner",
       order: 2
@@ -118,10 +115,10 @@ async function seedDatabase() {
     await db.insert(exercises).values([
       {
         lessonId: lesson2b.id,
-        question: "Grammatical state of the Fa'il (Doer)?",
-        options: ["Marfu", "Mansub", "Majrur"],
-        correctAnswer: "Marfu",
-        explanation: "The subject/doer of a verb is always nominative."
+        question: "ما هو الإعراب الصحيح للفاعل؟",
+        options: ["مرفوع", "منصوب", "مجرور"],
+        correctAnswer: "مرفوع",
+        explanation: "الفاعل دائماً مرفوع، وعلامة رفعه الضمة الظاهرة أو المقدرة."
       }
     ]);
     
