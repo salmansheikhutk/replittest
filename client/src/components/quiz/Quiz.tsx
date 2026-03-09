@@ -80,13 +80,12 @@ export function Quiz({ lessonId, exercises, onComplete }: QuizProps) {
   if (!exercises || exercises.length === 0) {
     return (
       <div className="p-8 text-center bg-muted rounded-2xl">
-        <p className="text-muted-foreground">لا توجد تمارين لهذا الدرس حالياً.</p>
+        <p className="text-muted-foreground">No exercises available for this lesson yet.</p>
         <button 
           onClick={finishQuiz}
           className="mt-4 px-6 py-2 bg-primary text-white rounded-xl font-medium"
-          data-testid="button-mark-complete"
         >
-          إكمال الدرس
+          Mark Complete
         </button>
       </div>
     );
@@ -103,9 +102,9 @@ export function Quiz({ lessonId, exercises, onComplete }: QuizProps) {
         <div className="w-20 h-20 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-6">
           <Flag className="w-10 h-10 text-success" />
         </div>
-        <h2 className="font-display text-3xl font-bold mb-2" data-testid="text-lesson-complete">أحسنت! الدرس مكتمل</h2>
-        <p className="text-muted-foreground mb-8" data-testid="text-score">
-          حصلت على {correctCount} من {exercises.length} ({accuracy}%)
+        <h2 className="font-display text-3xl font-bold mb-2">Lesson Complete!</h2>
+        <p className="text-muted-foreground mb-8">
+          You scored {correctCount} out of {exercises.length} ({accuracy}%)
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -118,15 +117,14 @@ export function Quiz({ lessonId, exercises, onComplete }: QuizProps) {
               setCorrectCount(0);
             }}
             className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-muted text-foreground hover:bg-border transition-colors"
-            data-testid="button-retry"
           >
             <RotateCcw className="w-5 h-5" />
-            أعد المحاولة
+            Try Again
           </button>
           
-          <Link href="/" className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-primary text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all" data-testid="link-continue-learning">
+          <Link href="/" className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-primary text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all">
             <ArrowRight className="w-5 h-5" />
-            تابع التعلّم
+            Continue Learning
           </Link>
         </div>
       </motion.div>
@@ -140,7 +138,7 @@ export function Quiz({ lessonId, exercises, onComplete }: QuizProps) {
       {/* Progress Bar */}
       <div className="mb-8">
         <div className="flex justify-between text-sm font-medium text-muted-foreground mb-2">
-          <span data-testid="text-exercise-progress">تمرين {currentIndex + 1} من {exercises.length}</span>
+          <span>Exercise {currentIndex + 1} of {exercises.length}</span>
         </div>
         <div className="h-3 w-full bg-muted rounded-full overflow-hidden">
           <motion.div 
@@ -187,7 +185,6 @@ export function Quiz({ lessonId, exercises, onComplete }: QuizProps) {
                     key={idx}
                     disabled={isRevealed}
                     onClick={() => setSelectedOption(option)}
-                    data-testid={`button-option-${idx}`}
                     className={`
                       w-full p-4 rounded-2xl border-2 text-lg font-arabic transition-all duration-200 flex justify-between items-center
                       ${optionStateClass}
@@ -221,7 +218,7 @@ export function Quiz({ lessonId, exercises, onComplete }: QuizProps) {
             </div>
             <div>
               <h4 className={`font-bold mb-1 ${isCorrect ? 'text-success' : 'text-destructive'}`}>
-                {isCorrect ? "ممتاز!" : "ليس صحيحاً تماماً"}
+                {isCorrect ? "Excellent!" : "Not quite right"}
               </h4>
               <p className="text-foreground/80 leading-relaxed text-sm">
                 {currentExercise.explanation}
@@ -237,21 +234,19 @@ export function Quiz({ lessonId, exercises, onComplete }: QuizProps) {
             onClick={handleCheck}
             disabled={!selectedOption}
             className="px-8 py-3 rounded-xl font-bold text-lg bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all w-full sm:w-auto"
-            data-testid="button-check-answer"
           >
-            تحقّق
+            Check Answer
           </button>
         ) : (
           <button
             onClick={handleNext}
-            data-testid="button-next-question"
             className={`px-8 py-3 rounded-xl font-bold text-lg text-white shadow-lg transition-all w-full sm:w-auto ${
               isCorrect 
                 ? 'bg-success shadow-success/25 hover:shadow-success/40' 
                 : 'bg-primary shadow-primary/25 hover:shadow-primary/40'
             } hover:-translate-y-0.5`}
           >
-            {currentIndex < exercises.length - 1 ? "السؤال التالي" : "إنهاء الدرس"}
+            {currentIndex < exercises.length - 1 ? "Next Question" : "Finish Lesson"}
           </button>
         )}
       </div>
