@@ -170,9 +170,9 @@ export function Quiz({ lessonId, exercises, onComplete }: QuizProps) {
                 
                 if (isRevealed) {
                   if (option === currentExercise.correctAnswer) {
-                    optionStateClass = "border-success bg-success/10 text-success-foreground font-bold";
+                    optionStateClass = "border-success bg-success/10 text-foreground font-bold";
                   } else if (isSelected && option !== currentExercise.correctAnswer) {
-                    optionStateClass = "border-destructive bg-destructive/10 text-destructive-foreground opacity-50";
+                    optionStateClass = "border-destructive bg-destructive/10 text-foreground opacity-50";
                   } else {
                     optionStateClass = "border-border bg-background opacity-50";
                   }

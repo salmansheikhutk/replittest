@@ -44,8 +44,8 @@ async function seedDatabase() {
   if (existingLessons.length === 0) {
     // Basic Sarf Lesson
     const [lesson1] = await db.insert(lessons).values({
-      title: "Introduction to Past Tense (Fi'l Madi)",
-      content: "In Arabic morphology (Sarf), the past tense verb is built upon a root of typically three letters. The base form is the 3rd person masculine singular. For example, 'Fa'ala' (He did).",
+      title: "Past Tense (Madi)",
+      content: "Arabic verbs usually have 3 root letters. The base is 3rd person masculine singular: **Fa'ala** (He did).",
       category: "sarf",
       level: "beginner",
       order: 1
@@ -54,24 +54,43 @@ async function seedDatabase() {
     await db.insert(exercises).values([
       {
         lessonId: lesson1.id,
-        question: "What is the base form of the past tense verb in Arabic?",
-        options: ["1st person singular", "3rd person masculine singular", "2nd person plural", "3rd person feminine plural"],
-        correctAnswer: "3rd person masculine singular",
-        explanation: "The dictionary or base form of an Arabic verb is the 3rd person masculine singular (e.g., 'he wrote')."
+        question: "Base form of past tense?",
+        options: ["He did", "I did", "You did"],
+        correctAnswer: "He did",
+        explanation: "3rd person masculine singular is the root."
       },
       {
         lessonId: lesson1.id,
-        question: "How many root letters does a typical Arabic verb have?",
-        options: ["Two", "Three", "Four", "Five"],
-        correctAnswer: "Three",
-        explanation: "Most Arabic verbs are triliteral, meaning they have a 3-letter root."
+        question: "Standard root letter count?",
+        options: ["2", "3", "4"],
+        correctAnswer: "3",
+        explanation: "Most Arabic verbs are triliteral (3 letters)."
+      }
+    ]);
+
+    // Added Sarf Lesson 2
+    const [lesson1b] = await db.insert(lessons).values({
+      title: "Present Tense (Mudari)",
+      content: "Starts with prefixes: **Ya-** (He), **Ta-** (You/She), **A-** (I), **Na-** (We). Example: **Yaf'alu** (He does).",
+      category: "sarf",
+      level: "beginner",
+      order: 2
+    }).returning();
+
+    await db.insert(exercises).values([
+      {
+        lessonId: lesson1b.id,
+        question: "Prefix for 'He' (3rd person)?",
+        options: ["Ya", "Ta", "Na"],
+        correctAnswer: "Ya",
+        explanation: "Ya- indicates 3rd person masculine singular."
       }
     ]);
 
     // Basic Nahw Lesson
     const [lesson2] = await db.insert(lessons).values({
-      title: "Nominal Sentence (Jumla Ismiyya)",
-      content: "An Arabic nominal sentence starts with a noun and typically consists of two parts: the subject (Mubtada') and the predicate (Khabar). Both are in the nominative case (Marfu').",
+      title: "Nominal Sentence (Ismiyya)",
+      content: "Starts with a noun. Two parts: **Mubtada** (Subject) and **Khabar** (Predicate). Both are **Marfu** (Nominative).",
       category: "nahw",
       level: "beginner",
       order: 1
@@ -80,17 +99,29 @@ async function seedDatabase() {
     await db.insert(exercises).values([
       {
         lessonId: lesson2.id,
-        question: "What are the two main parts of a Nominal Sentence?",
-        options: ["Verb and Subject", "Subject and Object", "Mubtada' and Khabar", "Adjective and Noun"],
-        correctAnswer: "Mubtada' and Khabar",
-        explanation: "The nominal sentence consists of the Mubtada' (Subject) and Khabar (Predicate)."
-      },
+        question: "Sentence starting with a noun?",
+        options: ["Ismiyya", "Fi'liyya"],
+        correctAnswer: "Ismiyya",
+        explanation: "Jumla Ismiyya starts with an Ism (noun)."
+      }
+    ]);
+
+    // Added Nahw Lesson 2
+    const [lesson2b] = await db.insert(lessons).values({
+      title: "Verbal Sentence (Fi'liyya)",
+      content: "Starts with a verb. Main parts: **Fi'l** (Verb) and **Fa'il** (Doer). Fa'il is always **Marfu**.",
+      category: "nahw",
+      level: "beginner",
+      order: 2
+    }).returning();
+
+    await db.insert(exercises).values([
       {
-        lessonId: lesson2.id,
-        question: "What is the grammatical case of the Mubtada'?",
-        options: ["Accusative (Mansub)", "Genitive (Majrur)", "Nominative (Marfu')", "Jussive (Majzum)"],
-        correctAnswer: "Nominative (Marfu')",
-        explanation: "Both the Mubtada' and Khabar are typically in the nominative case (Marfu')."
+        lessonId: lesson2b.id,
+        question: "Grammatical state of the Fa'il (Doer)?",
+        options: ["Marfu", "Mansub", "Majrur"],
+        correctAnswer: "Marfu",
+        explanation: "The subject/doer of a verb is always nominative."
       }
     ]);
     
