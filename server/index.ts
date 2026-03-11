@@ -64,7 +64,9 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  await migrate(db, { migrationsFolder: path.resolve(process.cwd(), "migrations") });
+  if (process.env.NODE_ENV === "production") {
+    await migrate(db, { migrationsFolder: path.resolve(process.cwd(), "migrations") });
+  }
 
   await registerRoutes(httpServer, app);
 
