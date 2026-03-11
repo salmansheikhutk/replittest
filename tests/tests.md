@@ -5,24 +5,24 @@
 | Command | Description |
 |---|---|
 | `npm test` | Run all unit/integration tests (Vitest) |
-| `npm test -- --reporter=verbose` | Run with full test name output |
 | `npm run test:watch` | Re-run on file save (dev mode) |
-| `npm run test:e2e` | Run browser tests (Playwright) — requires dev server running |
+| `npm run test:ui` | Open interactive Vitest UI |
+| `npm run test:e2e` | Run browser tests (Playwright) — requires dev server + live DB |
 
 ---
 
 ## Unit & Integration Tests (Vitest)
 
-Run without a database or browser. Fast (~1s).
+Run without a database or browser. Fast (~1–2s).
 
-### `tests/shared/schema.test.ts` — Schema Validation
+### `tests/shared/schema.test.ts` — Schema Validation (5 tests)
 - `insertLessonSchema` accepts valid lesson data
 - `insertLessonSchema` rejects missing required fields
 - `insertLessonSchema` rejects missing title
 - `insertExerciseSchema` accepts valid exercise data
 - `insertExerciseSchema` rejects missing correctAnswer
 
-### `tests/server/routes.test.ts` — API Endpoints
+### `tests/server/routes.test.ts` — API Endpoints (7 tests)
 - `GET /api/lessons` returns 200 with all lessons
 - `GET /api/lessons` filters by category
 - `GET /api/lessons` filters by level
@@ -31,12 +31,48 @@ Run without a database or browser. Fast (~1s).
 - `GET /api/lessons/:id` returns 404 for non-existent lesson
 - `GET /api/lessons/:id` returns 400 for non-numeric id
 
-### `tests/client/Home.test.tsx` — Home Page Render
+### `tests/client/Home.test.tsx` — Home Page Render (3 tests)
 - Renders the main heading
 - Renders Sarf and Nahw sections
 - Renders all three difficulty levels (Beginner, Intermediate, Advanced)
 
-### `tests/client/Quiz.test.tsx` — Quiz Component Interactions
+### `tests/client/CategoryView.test.tsx` — Category Page (8 tests)
+- Renders the category and level heading
+- Renders a Back to Categories link
+- Shows skeleton placeholders while loading
+- Shows error message when fetch fails
+- Shows "Coming Soon" when lessons array is empty
+- Renders lesson titles when data loads
+- Shows lesson number badge for incomplete lessons
+- Links each lesson to `/lesson/:id`
+- Shows invalid URL message when params are missing
+
+### `tests/client/LessonView.test.tsx` — Lesson Page (10 tests)
+- Shows skeleton placeholders while loading
+- Shows not found state when lesson is missing
+- Shows not found state when an error occurs
+- Renders lesson title in learn mode
+- Renders lesson content in learn mode
+- Shows Learn and Practice tab buttons
+- Defaults to Learn mode (quiz not visible initially)
+- Clicking Practice tab renders the quiz
+- Clicking Start Practice Quiz button switches to practice mode
+- Clicking Learn tab returns to content from practice mode
+- Renders a Back to Path link pointing to the category/level page
+
+### `tests/client/use-progress.test.ts` — useProgress Hook (10 tests)
+- Starts with empty completedLessonIds and 0 XP
+- `markLessonComplete` adds lessonId to completedLessonIds
+- `markLessonComplete` awards 50 XP by default
+- `markLessonComplete` accepts a custom XP amount
+- Completing the same lesson twice does not duplicate the id
+- Completing the same lesson twice does not add XP twice
+- Can complete multiple different lessons (XP accumulates correctly)
+- `isLessonComplete` returns false for an unknown lesson
+- `isLessonComplete` returns true after completing a lesson
+- `isLessonComplete` returns false for a different lesson
+
+### `tests/client/Quiz.test.tsx` — Quiz Component Interactions (12 tests)
 - Renders the first question
 - Renders all answer options
 - Selecting an option highlights it
@@ -44,20 +80,23 @@ Run without a database or browser. Fast (~1s).
 - Clicking correct answer then Check → reveals correct (green) state
 - Clicking wrong answer then Check → reveals incorrect (red) state
 - Answer buttons are disabled after Check is clicked
+- Option text remains visible after clicking Check Answer (correct) ← regression
+- Wrong answer text remains visible after clicking Check Answer ← regression
+- Shows explanation after Check is clicked
 - Clicking Next Question advances to the next exercise
-- Shows empty state when no exercises provided
 - Shows completion screen after finishing all exercises
 
 ---
 
 ## End-to-End Tests (Playwright)
 
-Run in a real Chromium browser. Requires `npm run dev` running (or starts automatically).
+Run in real browsers against the live dev server + database.
+Requires: `npm run dev` running with a connected PostgreSQL database.
 Run with: `npm run test:e2e`
 
 Tested on: Desktop Chrome, Mobile Safari (iPhone 13)
 
-### `tests/e2e/home.spec.ts`
+### `tests/e2e/home.spec.ts` — Home Page (9 tests per browser)
 
 **Home page**
 - Loads and displays main heading
@@ -73,3 +112,34 @@ Tested on: Desktop Chrome, Mobile Safari (iPhone 13)
 **Navigation**
 - Navbar is visible on all pages
 - 404 page shows for unknown routes
+
+### `tests/e2e/journey.spec.ts` — Full User Journey (10 tests per browser)
+
+**Category page**
+- Navigating to `/learn/sarf/beginner` shows lesson list
+- Back to Categories link returns to home
+- Lessons are listed with clickable links
+- Navigating to `/learn/nahw/beginner` shows the Nahw heading
+
+**Lesson page**
+- Clicking a lesson navigates to `/lesson/:id`
+- Lesson page shows the lesson title
+- Lesson page shows Learn and Practice tabs
+- Clicking Practice tab shows the quiz
+- Start Practice Quiz button switches to quiz view
+- Back to Path link returns to the category page
+
+**Full quiz journey**
+- Can select an answer and click Check Answer
+- After answering, Next Question button advances the quiz
+
+---
+
+## Git Hooks
+
+| Hook | Trigger | Command |
+|---|---|---|
+| `pre-commit` | Every `git commit` | `npm test` |
+| `pre-push` | Every `git push` | `npm test && npm run test:e2e` |
+
+The push is **aborted** if any test fails.
