@@ -1,0 +1,113 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - generic [ref=e5]:
+        - link "Fasaha." [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: Fasaha.
+        - generic [ref=e12]:
+          - img [ref=e13]
+          - generic [ref=e19]: 0 XP
+    - main [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - generic:
+            - generic: بسم
+          - generic [ref=e23]:
+            - generic [ref=e24]: Classical Arabic · Made Simple
+            - heading "Learn Arabic Grammar & Morphology" [level=1] [ref=e26]:
+              - text: Learn Arabic
+              - text: Grammar & Morphology
+            - paragraph [ref=e27]: Master Sarf and Nahw through bite-sized interactive lessons — from complete beginner to advanced.
+            - generic [ref=e28]:
+              - generic [ref=e29]:
+                - img [ref=e30]
+                - text: Structured Lessons
+              - generic [ref=e32]:
+                - img [ref=e33]
+                - text: Interactive Quizzes
+              - generic [ref=e35]:
+                - img [ref=e36]
+                - text: Track Progress
+        - main [ref=e42]:
+          - paragraph [ref=e43]: Choose your path
+          - generic [ref=e44]:
+            - generic [ref=e47]:
+              - generic [ref=e48]:
+                - generic [ref=e49]:
+                  - img [ref=e51]
+                  - generic [ref=e55]:
+                    - heading "Sarf" [level=2] [ref=e56]
+                    - paragraph [ref=e57]: Morphology · Word structure
+                - generic [ref=e58]: صرف
+              - generic [ref=e59]:
+                - link "01 Beginner Start your journey" [ref=e60] [cursor=pointer]:
+                  - /url: /learn/sarf/beginner
+                  - generic [ref=e61]:
+                    - generic [ref=e62]:
+                      - generic [ref=e63]: "01"
+                      - generic [ref=e64]:
+                        - paragraph [ref=e65]: Beginner
+                        - paragraph [ref=e66]: Start your journey
+                    - img [ref=e67]
+                - link "02 Intermediate Build your foundation" [ref=e69] [cursor=pointer]:
+                  - /url: /learn/sarf/intermediate
+                  - generic [ref=e70]:
+                    - generic [ref=e71]:
+                      - generic [ref=e72]: "02"
+                      - generic [ref=e73]:
+                        - paragraph [ref=e74]: Intermediate
+                        - paragraph [ref=e75]: Build your foundation
+                    - img [ref=e76]
+                - link "03 Advanced Master the rules" [ref=e78] [cursor=pointer]:
+                  - /url: /learn/sarf/advanced
+                  - generic [ref=e79]:
+                    - generic [ref=e80]:
+                      - generic [ref=e81]: "03"
+                      - generic [ref=e82]:
+                        - paragraph [ref=e83]: Advanced
+                        - paragraph [ref=e84]: Master the rules
+                    - img [ref=e85]
+            - generic [ref=e89]:
+              - generic [ref=e90]:
+                - generic [ref=e91]:
+                  - img [ref=e93]
+                  - generic [ref=e94]:
+                    - heading "Nahw" [level=2] [ref=e95]
+                    - paragraph [ref=e96]: Grammar · Sentence structure
+                - generic [ref=e97]: نحو
+              - generic [ref=e98]:
+                - link "01 Beginner Start your journey" [ref=e99] [cursor=pointer]:
+                  - /url: /learn/nahw/beginner
+                  - generic [ref=e100]:
+                    - generic [ref=e101]:
+                      - generic [ref=e102]: "01"
+                      - generic [ref=e103]:
+                        - paragraph [ref=e104]: Beginner
+                        - paragraph [ref=e105]: Start your journey
+                    - img [ref=e106]
+                - link "02 Intermediate Build your foundation" [ref=e108] [cursor=pointer]:
+                  - /url: /learn/nahw/intermediate
+                  - generic [ref=e109]:
+                    - generic [ref=e110]:
+                      - generic [ref=e111]: "02"
+                      - generic [ref=e112]:
+                        - paragraph [ref=e113]: Intermediate
+                        - paragraph [ref=e114]: Build your foundation
+                    - img [ref=e115]
+                - link "03 Advanced Master the rules" [ref=e117] [cursor=pointer]:
+                  - /url: /learn/nahw/advanced
+                  - generic [ref=e118]:
+                    - generic [ref=e119]:
+                      - generic [ref=e120]: "03"
+                      - generic [ref=e121]:
+                        - paragraph [ref=e122]: Advanced
+                        - paragraph [ref=e123]: Master the rules
+                    - img [ref=e124]
+```
