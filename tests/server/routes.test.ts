@@ -49,7 +49,7 @@ async function buildTestApp() {
   return app;
 }
 
-describe("GET /api/lessons", () => {
+describe("[Mock] GET /api/lessons", () => {
   let app: express.Express;
 
   beforeEach(async () => {
@@ -83,7 +83,7 @@ describe("GET /api/lessons", () => {
   });
 });
 
-describe("GET /api/lessons/:id", () => {
+describe("[Mock] GET /api/lessons/:id", () => {
   let app: express.Express;
 
   beforeEach(async () => {

@@ -13,7 +13,11 @@
 
 ## Unit & Integration Tests (Vitest)
 
-Run without a database or browser. Fast (~1–2s).
+Run with: `npm test`
+
+Two categories:
+- **Unit tests** — no database or browser needed, run in jsdom. Fast (~1–2s).
+- **DB integration tests** — connect to your real `DATABASE_URL`. Skipped automatically if the DB is unreachable. Tests run in Node environment.
 
 ### `tests/shared/schema.test.ts` — Schema Validation (5 tests)
 - `insertLessonSchema` accepts valid lesson data
@@ -22,14 +26,20 @@ Run without a database or browser. Fast (~1–2s).
 - `insertExerciseSchema` accepts valid exercise data
 - `insertExerciseSchema` rejects missing correctAnswer
 
-### `tests/server/routes.test.ts` — API Endpoints (7 tests)
-- `GET /api/lessons` returns 200 with all lessons
-- `GET /api/lessons` filters by category
-- `GET /api/lessons` filters by level
-- `GET /api/lessons` returns empty array for unknown category
-- `GET /api/lessons/:id` returns 200 with lesson and exercises for valid id
-- `GET /api/lessons/:id` returns 404 for non-existent lesson
-- `GET /api/lessons/:id` returns 400 for non-numeric id
+### `tests/server/routes.test.ts` — API Endpoints, mocked DB (7 tests)
+- `[Mock] GET /api/lessons` — returns 200 with all lessons, filters by category/level, empty array for unknown category
+- `[Mock] GET /api/lessons/:id` — returns 200 with lesson+exercises, 404 for missing, 400 for non-numeric id
+
+### `tests/server/storage.integration.test.ts` — Storage Layer, real DB (13 tests)
+> Locally: **fail hard** if `DATABASE_URL` is missing. In CI without a DB: skipped.
+- `[DB] storage.getLessons()` — returns array, required fields, sarf/nahw/combined/empty filters
+- `[DB] storage.getLesson()` — returns lesson with exercises for valid id, undefined for missing
+- `[DB] Data integrity` — valid categories/levels, positive order, correctAnswer in options, ≥2 options per exercise
+### `tests/server/api.integration.test.ts` — API HTTP → real DB (11 tests)
+> Locally: **fail hard** if `DATABASE_URL` is missing. In CI without a DB: skipped.
+- `[API] GET /api/lessons` — returns 200 with array, required fields, sarf/nahw/combined/empty filters
+- `[API] GET /api/lessons/:id` — returns 200 with lesson+exercises, 404 for missing, 400 for non-numeric
+- `[API] Response contract` — passes frontend Zod validator; sarf and nahw are disjoint sets
 
 ### `tests/client/Home.test.tsx` — Home Page Render (3 tests)
 - Renders the main heading
