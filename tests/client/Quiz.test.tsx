@@ -134,6 +134,31 @@ describe("Quiz component", () => {
     expect(screen.getByText(/No exercises available/i)).toBeInTheDocument();
   });
 
+  it("option text remains visible after clicking Check Answer", async () => {
+    const user = userEvent.setup();
+    render(<Quiz lessonId={1} exercises={mockExercises} />);
+
+    await user.click(screen.getByText("He did"));
+    await user.click(screen.getByRole("button", { name: /check answer/i }));
+
+    // Text must still be present in the DOM after reveal
+    expect(screen.getByText("He did")).toBeInTheDocument();
+    expect(screen.getByText("I did")).toBeInTheDocument();
+    expect(screen.getByText("You did")).toBeInTheDocument();
+  });
+
+  it("wrong answer text remains visible after clicking Check Answer", async () => {
+    const user = userEvent.setup();
+    render(<Quiz lessonId={1} exercises={mockExercises} />);
+
+    // Click a wrong answer
+    await user.click(screen.getByText("I did"));
+    await user.click(screen.getByRole("button", { name: /check answer/i }));
+
+    // The wrong selected option text must still be visible
+    expect(screen.getByText("I did")).toBeInTheDocument();
+  });
+
   it("shows completion screen after finishing all exercises", async () => {
     const user = userEvent.setup();
     render(<Quiz lessonId={1} exercises={mockExercises} />);
