@@ -1,6 +1,6 @@
 # Arabic Language Learning Platform
 
-## Overview
+## Overview--
 A full-stack Arabic language learning app with lessons and quizzes covering Sarf (morphology) and Nahw (grammar).
 
 ## Tech Stack
