@@ -49,14 +49,14 @@ test.describe("Lesson page", () => {
   test("lesson page shows Learn and Practice tabs", async ({ page }) => {
     await page.goto("/learn/sarf/beginner");
     await page.locator("a[href^='/lesson/']").first().click();
-    await expect(page.getByRole("button", { name: /Learn/i })).toBeVisible();
-    await expect(page.getByRole("button", { name: /Practice/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Learn", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Practice", exact: true })).toBeVisible();
   });
 
   test("clicking Practice tab shows the quiz", async ({ page }) => {
     await page.goto("/learn/sarf/beginner");
     await page.locator("a[href^='/lesson/']").first().click();
-    await page.getByRole("button", { name: /Practice/i }).click();
+    await page.getByRole("button", { name: "Practice", exact: true }).click();
     // Quiz shows a question and answer options
     await expect(page.getByRole("button", { name: /Check Answer/i })).toBeVisible();
   });
@@ -80,28 +80,27 @@ test.describe("Full quiz journey", () => {
   test("can select an answer and click Check Answer", async ({ page }) => {
     await page.goto("/learn/sarf/beginner");
     await page.locator("a[href^='/lesson/']").first().click();
-    await page.getByRole("button", { name: /Practice/i }).click();
+    await page.getByRole("button", { name: "Practice", exact: true }).click();
 
-    // Pick the first answer option
-    const options = page.locator("button").filter({ hasText: /^[A-Za-z0-9]/ });
-    await options.first().click();
+    // Pick the first answer option (quiz options have dir="rtl")
+    await page.locator("button[dir='rtl']").first().click();
 
     // Check Answer should now be clickable
     await page.getByRole("button", { name: /Check Answer/i }).click();
 
-    // Some result feedback should appear
+    // Some result feedback should appear ("Excellent!" or "Not quite right")
     await expect(
-      page.getByText(/correct|incorrect|explanation/i).first()
+      page.getByText(/Excellent!|Not quite right/i).first()
     ).toBeVisible();
   });
 
   test("after answering, Next Question button advances the quiz", async ({ page }) => {
     await page.goto("/learn/sarf/beginner");
     await page.locator("a[href^='/lesson/']").first().click();
-    await page.getByRole("button", { name: /Practice/i }).click();
+    await page.getByRole("button", { name: "Practice", exact: true }).click();
 
-    // Answer and reveal
-    await page.locator("button").filter({ hasText: /^[A-Za-z0-9]/ }).first().click();
+    // Answer and reveal (quiz options have dir="rtl")
+    await page.locator("button[dir='rtl']").first().click();
     await page.getByRole("button", { name: /Check Answer/i }).click();
 
     // If there's a next question, the Next button should appear
