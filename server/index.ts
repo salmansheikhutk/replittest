@@ -5,6 +5,7 @@ import { serveStatic } from "./static";
 import { createServer } from "http";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { db } from "./db";
+import path from "path";
 
 const app = express();
 const httpServer = createServer(app);
@@ -63,7 +64,7 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  await migrate(db, { migrationsFolder: "./migrations" });
+  await migrate(db, { migrationsFolder: path.resolve(process.cwd(), "migrations") });
 
   await registerRoutes(httpServer, app);
 
