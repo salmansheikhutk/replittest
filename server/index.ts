@@ -65,7 +65,14 @@ app.use((req, res, next) => {
 
 (async () => {
   if (process.env.NODE_ENV === "production") {
-    await migrate(db, { migrationsFolder: path.resolve(process.cwd(), "migrations") });
+    try {
+      log("Running database migrations...");
+      await migrate(db, { migrationsFolder: path.resolve(process.cwd(), "migrations") });
+      log("Database migrations completed successfully.");
+    } catch (err) {
+      console.error("DATABASE MIGRATION FAILED:", err);
+      throw err;
+    }
   }
 
   await registerRoutes(httpServer, app);
