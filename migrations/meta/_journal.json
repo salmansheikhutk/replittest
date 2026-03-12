@@ -8,6 +8,13 @@
       "when": 1773277512103,
       "tag": "0000_powerful_baron_zemo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1773284026890,
+      "tag": "0001_parched_calypso",
+      "breakpoints": true
     }
   ]
 }

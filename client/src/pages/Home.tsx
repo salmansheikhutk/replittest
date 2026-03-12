@@ -1,7 +1,10 @@
 import { Link } from "wouter";
 import { Layers, AlignRight, ChevronRight, BookOpen, Zap, Trophy } from "lucide-react";
+import { SiGoogle } from "react-icons/si";
+import { useAuth } from "@/hooks/use-auth";
 
 export function Home() {
+  const { isAuthenticated, isLoading } = useAuth();
   const levels = [
     { id: 'beginner', label: 'Beginner', desc: 'Start your journey', badge: '01' },
     { id: 'intermediate', label: 'Intermediate', desc: 'Build your foundation', badge: '02' },
@@ -58,6 +61,17 @@ export function Home() {
               </div>
             ))}
           </div>
+
+          {!isLoading && !isAuthenticated && (
+            <a
+              href="/auth/google"
+              className="inline-flex items-center gap-3 mt-8 bg-white text-gray-900 font-semibold px-6 py-3 rounded-full hover:bg-white/90 transition-colors text-sm"
+              data-testid="button-hero-sign-in"
+            >
+              <SiGoogle className="w-4 h-4" />
+              Sign in with Google
+            </a>
+          )}
         </div>
       </section>
 

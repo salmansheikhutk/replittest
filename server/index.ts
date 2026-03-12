@@ -2,6 +2,7 @@ import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
+import { setupAuth } from "./auth";
 import { createServer } from "http";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { db } from "./db";
@@ -74,6 +75,8 @@ app.use((req, res, next) => {
       throw err;
     }
   }
+
+  setupAuth(app);
 
   await registerRoutes(httpServer, app);
 

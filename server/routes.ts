@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import type { Server } from "http";
+import passport from "passport";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
@@ -10,7 +11,49 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  
+
+  const googleAuthEnabled = !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
+
+  if (googleAuthEnabled) {
+    const googleAuth = passport.authenticate("google", { scope: ["profile", "email"] });
+    app.get("/auth/google", googleAuth);
+    app.post("/auth/google", googleAuth);
+
+    app.get(
+      "/auth/google/callback",
+      passport.authenticate("google", { failureRedirect: "/" }),
+      (_req, res) => {
+        res.redirect("/");
+      }
+    );
+  } else {
+    app.get("/auth/google", (_req, res) => {
+      res.redirect("/?auth=unavailable");
+    });
+    app.post("/auth/google", (_req, res) => {
+      res.redirect("/?auth=unavailable");
+    });
+  }
+
+  app.get("/api/auth/user", (req, res) => {
+    if (req.isAuthenticated() && req.user) {
+      res.json(req.user);
+    } else {
+      res.json(null);
+    }
+  });
+
+  app.post("/auth/logout", (req, res, next) => {
+    req.logout((err) => {
+      if (err) return next(err);
+      req.session.destroy((sessionErr) => {
+        if (sessionErr) return next(sessionErr);
+        res.clearCookie("connect.sid");
+        res.json({ ok: true });
+      });
+    });
+  });
+
   app.get(api.lessons.list.path, async (req, res) => {
     try {
       const input = api.lessons.list.input?.parse(req.query) || {};
