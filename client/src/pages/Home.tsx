@@ -15,7 +15,7 @@ export function Home() {
   ];
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0f172a 100%)' }}>
+    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #0a1929 0%, #1a5f72 50%, #0a1929 100%)' }}>
 
       {/* Hero */}
       <section className="relative overflow-hidden">
