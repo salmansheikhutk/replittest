@@ -43,6 +43,11 @@ export async function registerRoutes(
     }
   });
 
+  app.get(api.testing.list.path, async (_req, res) => {
+    const records = await storage.getTestingRecords();
+    res.json(records);
+  });
+
   seedDatabase().catch(console.error);
 
   return httpServer;

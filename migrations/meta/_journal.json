@@ -8,6 +8,20 @@
       "when": 1773237724527,
       "tag": "0000_oval_mystique",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1773237724528,
+      "tag": "0001_lesson_stats_view",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773237724529,
+      "tag": "0002_testing_table",
+      "breakpoints": true
     }
   ]
 }
