@@ -23,7 +23,7 @@ function Router() {
           <Route path="/lesson/:id" component={LessonView} />
           <Route path="/glossary" component={Glossary} />
           <Route path="/testing" component={Testing} />
-          {/* Fallback to 404 */}}
+          {/* Fallback to 404 */}
           <Route component={NotFound} />
         </Switch>
       </main>
