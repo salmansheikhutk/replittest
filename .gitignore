@@ -8,3 +8,5 @@ vite.config.ts.*
 test-results/
 /*.sql
 .config/
+# Liquibase local config (contains DB credentials)
+liquibase.properties
