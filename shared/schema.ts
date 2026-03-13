@@ -1,4 +1,4 @@
-import { pgTable, pgMaterializedView, text, serial, integer, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, pgMaterializedView, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations, sql } from "drizzle-orm";
@@ -88,4 +88,17 @@ export const testing = pgTable("testing", {
 export const insertTestingSchema = createInsertSchema(testing).omit({ id: true, createdAt: true });
 
 export type TestingRecord = typeof testing.$inferSelect;
+
+export const products = pgTable("products", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  price: integer("price").notNull().default(0),
+  inStock: boolean("in_stock").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const insertProductSchema = createInsertSchema(products).omit({ id: true, createdAt: true });
+
+export type Product = typeof products.$inferSelect;
+export type InsertProduct = z.infer<typeof insertProductSchema>;
 export type InsertTestingRecord = z.infer<typeof insertTestingSchema>;

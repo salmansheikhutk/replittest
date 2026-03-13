@@ -51,6 +51,19 @@ async function seed() {
       `);
     }
 
+    const { rows: productsRows } = await client.query("SELECT COUNT(*) FROM products");
+    if (parseInt(productsRows[0].count) > 0) {
+      console.log("Products already seeded, skipping.");
+    } else {
+      console.log("Seeding products...");
+      await client.query(`
+        INSERT INTO products (name, price, in_stock) VALUES
+        ('Arabic Dictionary', 2500, true),
+        ('Grammar Workbook', 1500, true),
+        ('Flashcard Set', 800, false)
+      `);
+    }
+
     console.log("Seeding complete.");
   } finally {
     client.release();
