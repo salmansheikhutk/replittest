@@ -14,3 +14,6 @@ CREATE TABLE IF NOT EXISTS "testing" (
 
 --changeset system:0002_drop_testing_name
 ALTER TABLE "testing" DROP COLUMN IF EXISTS "name";
+
+--changeset system:0003_drop_testing_name
+ALTER TABLE "testing" DROP COLUMN IF EXISTS "description";
