@@ -1,7 +1,7 @@
-import { pgTable, text, serial, integer } from "drizzle-orm/pg-core";
+import { pgTable, pgMaterializedView, text, serial, integer, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 
 export const lessons = pgTable("lessons", {
   id: serial("id").primaryKey(),
@@ -41,3 +41,23 @@ export type Exercise = typeof exercises.$inferSelect;
 export type InsertExercise = z.infer<typeof insertExerciseSchema>;
 
 export type LessonWithExercises = Lesson & { exercises: Exercise[] };
+
+export const lessonStats = pgMaterializedView("lesson_stats", {
+  category: text("category"),
+  level: text("level"),
+  lessonCount: integer("lesson_count"),
+  exerciseCount: integer("exercise_count"),
+  lastRefreshed: timestamp("last_refreshed"),
+}).as(sql`
+  SELECT
+    l.category,
+    l.level,
+    COUNT(DISTINCT l.id)::int AS lesson_count,
+    COUNT(e.id)::int          AS exercise_count,
+    NOW()                     AS last_refreshed
+  FROM lessons l
+  LEFT JOIN exercises e ON e.lesson_id = l.id
+  GROUP BY l.category, l.level
+`);
+
+export type LessonStats = typeof lessonStats.$inferSelect;
