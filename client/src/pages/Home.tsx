@@ -36,7 +36,7 @@ export function Home() {
             Classical Arabic · Made Simple
           </div>
           <h1 className="font-display text-5xl md:text-[5.5rem] font-extrabold leading-[1.05] tracking-tight text-white mb-6">
-            Learn Arabic<br />
+            Master Arabic<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
               Grammar
             </span>

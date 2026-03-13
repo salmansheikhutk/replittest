@@ -85,6 +85,21 @@ app.use((req, res, next) => {
   }
 
   const port = parseInt(process.env.PORT || "5000", 10);
+
+  httpServer.on("error", (err: NodeJS.ErrnoException) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`Port ${port} is already in use. Kill the existing process and restart.`);
+      process.exit(1);
+    }
+    throw err;
+  });
+
+  const shutdown = () => {
+    httpServer.close(() => process.exit(0));
+  };
+  process.on("SIGTERM", shutdown);
+  process.on("SIGINT", shutdown);
+
   httpServer.listen(port, () => {
     log(`serving on port ${port}`);
   });
