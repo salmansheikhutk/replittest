@@ -98,9 +98,8 @@ export function CategoryView() {
                         <h3 className="font-bold text-xl mb-2 text-foreground group-hover:text-primary transition-colors">
                           {lesson.title}
                         </h3>
-                        {/* We don't have a short desc in schema, so we truncate content or just show a standard text */}
                         <p className="text-muted-foreground text-sm line-clamp-2">
-                          Learn about {lesson.title.toLowerCase()} and practice with interactive exercises.
+                          {lesson.description || `Learn about ${lesson.title.toLowerCase()} and practice with interactive exercises.`}
                         </p>
                       </div>
                     </Link>

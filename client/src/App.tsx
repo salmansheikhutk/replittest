@@ -9,6 +9,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Home } from "@/pages/Home";
 import { CategoryView } from "@/pages/CategoryView";
 import { LessonView } from "@/pages/LessonView";
+import { Glossary } from "@/pages/Glossary";
 
 function Router() {
   return (
@@ -19,6 +20,7 @@ function Router() {
           <Route path="/" component={Home} />
           <Route path="/learn/:category/:level" component={CategoryView} />
           <Route path="/lesson/:id" component={LessonView} />
+          <Route path="/glossary" component={Glossary} />
           {/* Fallback to 404 */}
           <Route component={NotFound} />
         </Switch>

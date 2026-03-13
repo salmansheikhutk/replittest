@@ -6,9 +6,10 @@ import { relations, sql } from "drizzle-orm";
 export const lessons = pgTable("lessons", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
-  content: text("content").notNull(), // Markdown or text
-  category: text("category").notNull(), // 'sarf' | 'nahw'
-  level: text("level").notNull(), // 'beginner' | 'intermediate' | 'advanced'
+  description: text("description").notNull().default(""),
+  content: text("content").notNull(),
+  category: text("category").notNull(),
+  level: text("level").notNull(),
   order: integer("order").notNull(),
 });
 
@@ -41,6 +42,20 @@ export type Exercise = typeof exercises.$inferSelect;
 export type InsertExercise = z.infer<typeof insertExerciseSchema>;
 
 export type LessonWithExercises = Lesson & { exercises: Exercise[] };
+
+export const glossary = pgTable("glossary", {
+  id: serial("id").primaryKey(),
+  term: text("term").notNull(),
+  arabicTerm: text("arabic_term").notNull(),
+  transliteration: text("transliteration").notNull(),
+  definition: text("definition").notNull(),
+  category: text("category").notNull(),
+});
+
+export const insertGlossarySchema = createInsertSchema(glossary).omit({ id: true });
+
+export type GlossaryTerm = typeof glossary.$inferSelect;
+export type InsertGlossaryTerm = z.infer<typeof insertGlossarySchema>;
 
 export const lessonStats = pgMaterializedView("lesson_stats", {
   category: text("category"),
