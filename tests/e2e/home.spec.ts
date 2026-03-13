@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Home page", () => {
   test("loads and displays main heading", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByText("Learn Arabic")).toBeVisible();
+    await expect(page.getByText("Master Arabic")).toBeVisible();
   });
 
   test("displays Sarf and Nahw category cards", async ({ page }) => {
@@ -30,20 +30,20 @@ test.describe("Responsiveness", () => {
   test("home page renders correctly on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/");
-    await expect(page.getByText("Learn Arabic")).toBeVisible();
+    await expect(page.getByText("Master Arabic")).toBeVisible();
     await expect(page.getByRole("heading", { name: /Sarf/i })).toBeVisible();
   });
 
   test("home page renders correctly on tablet", async ({ page }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
     await page.goto("/");
-    await expect(page.getByText("Learn Arabic")).toBeVisible();
+    await expect(page.getByText("Master Arabic")).toBeVisible();
   });
 
   test("home page renders correctly on desktop", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
-    await expect(page.getByText("Learn Arabic")).toBeVisible();
+    await expect(page.getByText("Master Arabic")).toBeVisible();
   });
 });
 
