@@ -1,4 +1,3 @@
-import cron from "node-cron";
 import { pool } from "./db";
 import { log } from "./logger";
 
@@ -47,8 +46,8 @@ export async function startScheduler() {
   // Refresh immediately on startup so data is never stale after a deploy
   await refreshLessonStats();
 
-  // Then refresh every day at midnight UTC
-  cron.schedule("0 0 * * *", refreshLessonStats, { timezone: "UTC" });
+  const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+  setInterval(refreshLessonStats, TWENTY_FOUR_HOURS);
 
-  log("scheduler started — lesson_stats refreshes daily at 00:00 UTC", "scheduler");
+  log("scheduler started — lesson_stats refreshes every 24 hours", "scheduler");
 }
