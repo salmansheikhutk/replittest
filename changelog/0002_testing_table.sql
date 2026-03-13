@@ -11,3 +11,6 @@ CREATE TABLE IF NOT EXISTS "testing" (
   "value" integer NOT NULL DEFAULT 0,
   "created_at" timestamp NOT NULL DEFAULT now()
 );
+
+--changeset system:0002_drop_testing_name
+ALTER TABLE "testing" DROP COLUMN IF EXISTS "name";
