@@ -12,9 +12,5 @@ CREATE TABLE "find_this" (
     "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW() NOT NULL
 );
 
---changeset system:0006_find_this_data
-INSERT INTO "find_this" ("name", "description", "value") VALUES
-('A', 'First test record', 10),
-('B', 'Second test record', 42),
-('G', 'Third test record', 99),
-('D', 'Fourth test record', 7);
+--changeset system:0006_find_this_clear_data
+DELETE FROM "find_this";
