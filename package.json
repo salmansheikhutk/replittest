@@ -9,6 +9,7 @@
     "start": "NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
     "db:migrate": "liquibase update",
+    "db:preview": "liquibase updateSQL 2>/dev/null | grep -E '^-- Changeset|^ALTER |^CREATE |^DROP |^INSERT ' | grep -v databasechangelog",
     "db:status": "liquibase status",
     "db:history": "liquibase history",
     "test": "vitest run",

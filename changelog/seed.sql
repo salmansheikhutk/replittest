@@ -38,3 +38,7 @@ INSERT INTO products (name, price, in_stock) VALUES
 ('Grammar Workbook', 1500, true),
 ('Flashcard Set', 800, false)
 ON CONFLICT DO NOTHING;
+
+--changeset system:seed_products_test_row
+INSERT INTO products (name, price, in_stock) VALUES
+('Test Product', 999, true);
