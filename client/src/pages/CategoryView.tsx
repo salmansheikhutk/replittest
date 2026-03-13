@@ -99,7 +99,7 @@ export function CategoryView() {
                           {lesson.title}
                         </h3>
                         <p className="text-muted-foreground text-sm line-clamp-2">
-                          {lesson.description || `Learn about ${lesson.title.toLowerCase()} and practice with interactive exercises.`}
+                          {lesson.description}
                         </p>
                       </div>
                     </Link>
