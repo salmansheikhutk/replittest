@@ -6,5 +6,5 @@ vite.config.ts.*
 *.tar.gz
 .env
 test-results/
-*.sql
+/*.sql
 .config/
