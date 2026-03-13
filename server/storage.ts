@@ -1,11 +1,12 @@
 import { db } from "./db";
-import { lessons, exercises, glossary, type Lesson, type Exercise, type LessonWithExercises, type GlossaryTerm } from "@shared/schema";
+import { lessons, exercises, glossary, testing, type Lesson, type Exercise, type LessonWithExercises, type GlossaryTerm, type TestingRecord } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
 export interface IStorage {
   getLessons(category?: string, level?: string): Promise<Lesson[]>;
   getLesson(id: number): Promise<LessonWithExercises | undefined>;
   getGlossaryTerms(category?: string): Promise<GlossaryTerm[]>;
+  getTestingRecords(): Promise<TestingRecord[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -35,6 +36,10 @@ export class DatabaseStorage implements IStorage {
     const allTerms = await db.select().from(glossary);
     if (!category) return allTerms;
     return allTerms.filter(term => term.category === category);
+  }
+
+  async getTestingRecords(): Promise<TestingRecord[]> {
+    return db.select().from(testing);
   }
 }
 

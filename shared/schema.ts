@@ -76,3 +76,16 @@ export const lessonStats = pgMaterializedView("lesson_stats", {
 `);
 
 export type LessonStats = typeof lessonStats.$inferSelect;
+
+export const testing = pgTable("testing", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull().default(""),
+  value: integer("value").notNull().default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const insertTestingSchema = createInsertSchema(testing).omit({ id: true, createdAt: true });
+
+export type TestingRecord = typeof testing.$inferSelect;
+export type InsertTestingRecord = z.infer<typeof insertTestingSchema>;

@@ -10,6 +10,7 @@ import { Home } from "@/pages/Home";
 import { CategoryView } from "@/pages/CategoryView";
 import { LessonView } from "@/pages/LessonView";
 import { Glossary } from "@/pages/Glossary";
+import { Testing } from "@/pages/Testing";
 
 function Router() {
   return (
@@ -21,7 +22,8 @@ function Router() {
           <Route path="/learn/:category/:level" component={CategoryView} />
           <Route path="/lesson/:id" component={LessonView} />
           <Route path="/glossary" component={Glossary} />
-          {/* Fallback to 404 */}
+          <Route path="/testing" component={Testing} />
+          {/* Fallback to 404 */}}
           <Route component={NotFound} />
         </Switch>
       </main>

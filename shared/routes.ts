@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { insertLessonSchema, insertExerciseSchema, lessons, exercises, glossary } from './schema';
+import { insertLessonSchema, insertExerciseSchema, lessons, exercises, glossary, testing } from './schema';
 
 export const errorSchemas = {
   validation: z.object({
@@ -45,6 +45,15 @@ export const api = {
       }).optional(),
       responses: {
         200: z.array(z.custom<typeof glossary.$inferSelect>()),
+      },
+    },
+  },
+  testing: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/testing' as const,
+      responses: {
+        200: z.array(z.custom<typeof testing.$inferSelect>()),
       },
     },
   },

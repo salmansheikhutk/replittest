@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { BookOpen, Trophy, Library } from "lucide-react";
+import { BookOpen, Trophy, Library, FlaskConical } from "lucide-react";
 import { useProgress } from "@/hooks/use-progress";
 
 export function Navbar() {
@@ -21,6 +21,11 @@ export function Navbar() {
           <Link href="/glossary" className="flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors" data-testid="link-glossary">
             <Library className="w-4 h-4" />
             Glossary
+          </Link>
+
+          <Link href="/testing" className="flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            <FlaskConical className="w-4 h-4" />
+            Testing
           </Link>
         </div>
 
