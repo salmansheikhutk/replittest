@@ -4,7 +4,7 @@ import { log } from "./logger";
 async function refreshLessonStats() {
   const client = await pool.connect();
   try {
-    await client.query("REFRESH MATERIALIZED VIEW CONCURRENTLY lesson_stats");
+    await client.query("REFRESH MATERIALIZED VIEW lesson_stats");
     log("lesson_stats refreshed", "scheduler");
   } catch (err) {
     log(`lesson_stats refresh failed: ${(err as Error).message}`, "scheduler");
