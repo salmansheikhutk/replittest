@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { insertLessonSchema, insertExerciseSchema, lessons, exercises } from './schema';
+import { insertLessonSchema, insertExerciseSchema, lessons, exercises, glossary } from './schema';
 
 export const errorSchemas = {
   validation: z.object({
@@ -33,6 +33,18 @@ export const api = {
       responses: {
         200: z.custom<typeof lessons.$inferSelect & { exercises: typeof exercises.$inferSelect[] }>(),
         404: errorSchemas.notFound,
+      },
+    },
+  },
+  glossary: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/glossary' as const,
+      input: z.object({
+        category: z.string().optional(),
+      }).optional(),
+      responses: {
+        200: z.array(z.custom<typeof glossary.$inferSelect>()),
       },
     },
   },

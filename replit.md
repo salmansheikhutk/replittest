@@ -23,5 +23,13 @@ A full-stack Arabic language learning app with lessons and quizzes covering Sarf
 5. **After any data change**, update or create the corresponding migration file so the change is version-controlled and recoverable.
 
 ## Schema
-- `lessons` - id, title, content, category (sarf/nahw), level (beginner/intermediate/advanced), order
+- `lessons` - id, title, description, content, category (sarf/nahw), level (beginner/intermediate/advanced), order
 - `exercises` - id, lessonId, question, options (text[]), correctAnswer, explanation
+- `glossary` - id, term, arabicTerm, transliteration, definition, category (sarf/nahw/general)
+- `lesson_stats` - materialized view (category, level, lessonCount, exerciseCount, lastRefreshed)
+
+## Pages
+- `/` - Home (category selection with Sarf/Nahw cards and level links)
+- `/learn/:category/:level` - Category view (lesson list with descriptions)
+- `/lesson/:id` - Lesson view (learn mode + practice quiz)
+- `/glossary` - Glossary (searchable/filterable Arabic grammar term reference)

@@ -1,20 +1,16 @@
 import { db } from "./db";
-import { lessons, exercises, type Lesson, type Exercise, type LessonWithExercises } from "@shared/schema";
+import { lessons, exercises, glossary, type Lesson, type Exercise, type LessonWithExercises, type GlossaryTerm } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
 export interface IStorage {
   getLessons(category?: string, level?: string): Promise<Lesson[]>;
   getLesson(id: number): Promise<LessonWithExercises | undefined>;
+  getGlossaryTerms(category?: string): Promise<GlossaryTerm[]>;
 }
 
 export class DatabaseStorage implements IStorage {
   async getLessons(category?: string, level?: string): Promise<Lesson[]> {
-    let query = db.select().from(lessons);
-    
-    // We could add conditionals here if we want to filter in the DB, 
-    // but for simple cases, returning all or filtering manually is fine.
-    // However, Drizzle allows conditional where clauses but we'll fetch all and filter or use basic where.
-    const allLessons = await query;
+    const allLessons = await db.select().from(lessons);
     return allLessons.filter(lesson => {
       let matches = true;
       if (category && lesson.category !== category) matches = false;
@@ -28,11 +24,17 @@ export class DatabaseStorage implements IStorage {
     if (!lesson.length) return undefined;
 
     const lessonExercises = await db.select().from(exercises).where(eq(exercises.lessonId, id));
-    
+
     return {
       ...lesson[0],
       exercises: lessonExercises
     };
+  }
+
+  async getGlossaryTerms(category?: string): Promise<GlossaryTerm[]> {
+    const allTerms = await db.select().from(glossary);
+    if (!category) return allTerms;
+    return allTerms.filter(term => term.category === category);
   }
 }
 
