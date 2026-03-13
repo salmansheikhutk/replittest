@@ -10,6 +10,7 @@
     <include file="changelog/0002_testing_table.sql" relativeToChangelogFile="false"/>
     <include file="changelog/0003_stale_ironclad.sql" relativeToChangelogFile="false"/>
     <include file="changelog/0004_steady_vision.sql" relativeToChangelogFile="false"/>
+    <include file="changelog/0006_find_this.sql" relativeToChangelogFile="false"/>
     <include file="changelog/seed.sql" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>
