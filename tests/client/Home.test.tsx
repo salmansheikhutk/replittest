@@ -12,7 +12,7 @@ vi.mock("wouter", () => ({
 describe("Home page", () => {
   it("renders the main heading", () => {
     render(<Home />);
-    expect(screen.getByText(/Learn Arabic/i)).toBeInTheDocument();
+    expect(screen.getByText(/Master Arabic/i)).toBeInTheDocument();
   });
 
   it("renders Sarf and Nahw sections", () => {
