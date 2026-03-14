@@ -5,9 +5,11 @@ import { serveStatic } from "./static";
 import { createServer } from "http";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { db } from "./db";
+import { pool } from "./db";
 import { startScheduler } from "./scheduler";
 import { log } from "./logger";
 import path from "path";
+import fs from "fs";
 
 export { log } from "./logger";
 
@@ -55,9 +57,36 @@ app.use((req, res, next) => {
   next();
 });
 
+async function syncMigrationLog() {
+  const migrationsDir = path.resolve(process.cwd(), "migrations");
+  const journal = JSON.parse(
+    fs.readFileSync(path.join(migrationsDir, "meta", "_journal.json"), "utf8")
+  ) as { entries: { idx: number; tag: string; when: number }[] };
+
+  const client = await pool.connect();
+  try {
+    const { rows } = await client.query<{ hash: string; created_at: string }>(
+      `SELECT hash, created_at FROM __drizzle_migrations ORDER BY created_at`
+    );
+    for (const row of rows) {
+      const entry = journal.entries.find((e) => e.when === Number(row.created_at));
+      if (!entry) continue;
+      await client.query(
+        `INSERT INTO migration_log (idx, tag, hash, applied_at)
+         VALUES ($1, $2, $3, to_timestamp($4 / 1000.0))
+         ON CONFLICT DO NOTHING`,
+        [entry.idx, entry.tag, row.hash, row.created_at]
+      );
+    }
+  } finally {
+    client.release();
+  }
+}
+
 (async () => {
   if (process.env.NODE_ENV === "production") {
     await migrate(db, { migrationsFolder: path.resolve(process.cwd(), "migrations") });
+    await syncMigrationLog();
   }
 
   await startScheduler();

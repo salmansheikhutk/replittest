@@ -22,6 +22,13 @@
       "when": 1773237724529,
       "tag": "0002_testing_table",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1773496285186,
+      "tag": "0003_migration_log",
+      "breakpoints": true
     }
   ]
 }
